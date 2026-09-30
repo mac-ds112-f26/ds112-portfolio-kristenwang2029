@@ -49,8 +49,15 @@ How many, or roughly what percent, of the 3000+ counties did the Republican cand
 -   Then discuss what follow-up questions you might have (and that our data might help us answer).
 
 ```{r}
-
+library(tidyverse)
+elections |>
+  ggplot(aes(x = winner_20)) +
+  geom_bar()
+  
 ```
+> 60%.
+Are counties with more total votes more likely to vote for one party?
+
 
 #### Part b
 
@@ -61,8 +68,11 @@ Notice that the distribution of Republican support from county to county is slig
 What follow-up questions do you have?
 
 ```{r}
-
+elections |>
+  ggplot(aes(x = repub_pct_20)) +
+  geom_histogram()
 ```
+>left skewed. I wonder which counties have especially low or high Republican support.
 
 
 ## Exercise 1: Quantitative vs Quantitative Intuition Check
@@ -86,7 +96,9 @@ Try to replicate this using `ggplot()`. Think:
 ![](https://mac-stat.github.io/images/112/scatterplot_demo.png){width="50%"}
 
 ```{r}
-
+elections |>
+  ggplot(aes(y = repub_pct_20, x = repub_pct_16)) +
+  geom_point()
 ```
 
 
@@ -99,6 +111,7 @@ Run each chunk below to build up a a scatterplot of `repub_pct_20` vs `repub_pct
 # How does this differ from the frame for our histogram of repub_pct_20 alone?
 ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16))
 ```
+>the y axis is different.
 
 ```{r}
 # Add a layer of points for each county
@@ -111,15 +124,16 @@ ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16)) +
 # Change the shape of the points
 # What happens if you change the shape to another number?
 ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16)) +
-  geom_point(shape = 3)
+  geom_point(shape = 23)
 ```
 
 ```{r}
 # Modify the code to make the points "orange"
 # NOTE: Try to anticipate if "color" or "fill" will be useful here. Then try both.
 ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16)) +
-  geom_point()
+  geom_point(color = "orange", fill = "pink")
 ```
+> fill does not work.
 
 ```{r}
 # Add a layer that represents each county by the state it's in
@@ -136,7 +150,7 @@ Summarize the relationship between the Republican support in 2020 and 2016. Be s
 -   the strength of the relationship: weak/moderate/strong
 -   the direction of the relationship: positive/negative
 -   outliers, ie, in what state do counties deviate from the national trend? Any ideas why this might be the case?
-
+> the strength is strong, positive. TX, 
 
 ## Exercise 4: Visualizing Trend
 
@@ -153,7 +167,8 @@ ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16)) +
 Construct a new plot that contains the model smooth but does *not* include the individual point glyphs.
 
 ```{r}
-
+ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16)) +
+  geom_smooth()
 ```
 
 #### Part b
@@ -173,11 +188,11 @@ To examine how the 2020 results are related to some county demographics, constru
 
 ```{r}
 # Scatterplot of repub_pct_20 vs median_rent
-
-
-
+ggplot(elections, aes(y = repub_pct_20, x = median_rent)) +
+  geom_point()
 # Scatterplot of repub_pct_20 vs median_age
-
+ggplot(elections, aes(y = repub_pct_20, x = median_age)) +
+  geom_point()
 
 ```
 
@@ -244,6 +259,9 @@ Work through the chunks below and address the comments therein.
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_density()
 ```
+> The density plots overlap too much, making the distributions difficult to compare.The fill colors do not match the category names.
+
+
 
 ```{r}
 # What does scale_fill_manual do?
@@ -251,14 +269,16 @@ ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_density() +
   scale_fill_manual(values = c("blue", "purple", "red"))
 ```
+>scale_fill_manual() allows us to manually choose the fill colors used for the different categories of historical.
 
 ```{r}
 # What does alpha = 0.5 do?
 # Play around with different values of alpha, between 0 and 1
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
-  geom_density(alpha = 0.5) +
+  geom_density(alpha = 0.1) +
   scale_fill_manual(values = c("blue", "purple", "red"))
 ```
+> alpha = 0.5 makes the overlapping density curves easier to see because you can partially see the distributions underneath each other
 
 ```{r}
 # What does facet_wrap do?!
@@ -267,6 +287,7 @@ ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   scale_fill_manual(values = c("blue", "purple", "red")) +
   facet_wrap(~historical)
 ```
+>facet_wrap(~historical) creates a separate plot for each category of historical.
 
 ```{r}
 # Let's try a similar grouping strategy with a histogram instead of density plot.
@@ -275,6 +296,7 @@ ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_histogram(color = "white") +
   scale_fill_manual(values = c("blue", "purple", "red"))
 ```
+> The groups are stacked on top of each other, so it is hard to compare their distributions.
 
 
 ## Exercise 10: Reflect
@@ -284,7 +306,7 @@ We've now learned 3 (of many) ways to visualize the relationship between a quant
 -   Which do you like best?
 -   What is one pro of density plots relative to boxplots?
 -   What is one con of density plots relative to boxplots?
-
+> I like boxplots the best because they are simple and easy to compare across groups. One pro of density plots is that they show the overall shape of the distribution more clearly, including things like skewness and multiple peaks. One con is that density plots do not show exact summary statistics, such as the median and quartiles, as clearly as boxplots do.
 
 ## Exercise 11: Categorical vs Categorical: Intuition Check
 
@@ -323,6 +345,7 @@ Construct the following 4 bar plot visualizations.
 ggplot(elections, aes(x = historical, fill = winner_20)) +
   geom_bar()
 ```
+> historical is predictor, winner_20 is the respoonse variable
 
 ```{r}
 # A faceted bar plot
@@ -348,11 +371,12 @@ ggplot(elections, aes(x = historical, fill = winner_20)) +
 #### Part a
 
 Name one pro and one con of using the "proportional bar plot" instead of one of the other three options.
+> One pro it makes it easy to compare the proportion of winner_20 within each historical category, even if the groups have different numbers of counties. One con is that it hides the actual counts, so we cannot tell how many counties are in each group
 
 #### Part b
 
 What's your favorite bar plot from part and why?
-
+> My favorite is the side-by-side bar plot because it makes it easy to compare the number of counties won by each party across the different historical categories without the bars overlapping.
 
 ## Exercise 13: Optional Practice
 
