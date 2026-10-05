@@ -132,7 +132,7 @@ ggplot(education, aes(x = expend, y = sat, color = fracCat)) +
 ### ✏️ Explain Simpson's Paradox
 
 Putting all of this together, explain this example of **Simpson’s Paradox**. That is, why did it appear that SAT scores decrease as spending increases even though the *opposite* is true?
-
+> students participant tends to lower among states with lower expenditures. 
 
 
 ## Heat Maps & Star Plots (Optional)
@@ -207,7 +207,7 @@ heatmap.2(plot_data,
   dendrogram = "row",       ### WE CHANGED THIS FROM "none" TO "row"
   Rowv = TRUE,            
   scale = "column",
-  keysize = 0.7, 
+  keysize = 0.9, 
   density.info = "none",
   col = hcl.colors(256), 
   margins = c(10, 20),
@@ -221,7 +221,7 @@ heatmap.2(plot_data,
 In the final two plots, the states (rows) are rearranged by similarity with respect to these education metrics. The *final* plot includes a **dendrogram** which further indicates *clusters* of similar states. In short, states that have a shorter path to connection are more similar than others.
 
 Putting this all together, what insight do you gain about the education trends across U.S. states? Which states are similar? In what ways are they similar? Are there any outliers with respect to 1 or more of the education metrics?
-
+> Similar values in sat. there is an inverse relationship between sat scores and the fraction of students that take the SAT. Outliers is Utah and California
 
 
 ### ✏️ Build Star Plot
@@ -245,6 +245,7 @@ stars(plot_data,
   draw.segments = TRUE
 )
 ```
+> MN is high on the SAT and low on everything else. MN is similar to Iowa, Mississippi
 
 ### ✏️ Map Star Plots
 
@@ -263,3 +264,4 @@ stars(plot_data,
   draw.segments = TRUE
 )
 ```
+> it is more easily to see states in similar regions of the U.S. have similar patterns of these variables.
