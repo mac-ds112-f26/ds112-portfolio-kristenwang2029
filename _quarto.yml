@@ -62,7 +62,7 @@ book:
 
     - part: "Personal Viz Journey"
       chapters:
-      - pvj/pvj-01.qmd
+      - pvj/pvj_version1.qmd
 
     - part: "TidyTuesday"
       chapters:
