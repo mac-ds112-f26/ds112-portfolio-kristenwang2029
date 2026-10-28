@@ -1,0 +1,53 @@
+---
+title: "Where Does My Time Go?"
+subtitle: "A Personal Visualization Journey Through My Google Calendar"
+author: "Kristen Wang"
+---
+
+```{r}
+library(tidyverse)
+
+calendar <- read_csv("pvj_calendar_anonymized_v1_updated.csv")
+```
+
+```{r}
+weekday_order <- c(
+  "Mon", "Tue", "Wed", "Thu",
+  "Fri", "Sat", "Sun"
+)
+
+weekly_summary <- calendar |>
+  filter(category != "Deadline / Reminder") |>
+  mutate(
+    weekday = factor(weekday, levels = weekday_order)
+  ) |>
+  group_by(weekday, category) |>
+  summarize(
+    avg_hours = sum(duration_hours) / 8,
+    .groups = "drop"
+  )
+
+
+
+```
+
+```{r}
+ggplot(
+  weekly_summary,
+  aes(
+    x = weekday,
+    y = avg_hours,
+    fill = category
+  )
+) +
+  geom_col() +
+  labs(
+    title = "Where Does My Time Go?",
+    subtitle = "Average scheduled hours by weekday, Fall 2026",
+    x = "Day of Week",
+    y = "Average Scheduled Hours",
+    fill = "Activity"
+  ) +
+  theme_minimal()
+```
+

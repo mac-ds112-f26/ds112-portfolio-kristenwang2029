@@ -1,3 +1,4 @@
+
 ---
 title: "Pre-Class Learning Summaries"
 ---
@@ -9,3 +10,27 @@ title: "Pre-Class Learning Summaries"
 ## Quarto
 
 ![from qmd4sci.njtierney.com](0810-quarto.jpeg)
+
+## Univariate Visualization
+
+![](0916-univariate.png)
+
+## Bivariate Visualization
+
+![](0921-bivariate.png)
+
+## Multivariate Visualization
+
+![](0928-multivariate.png)
+
+## Spatial Visualization
+
+![](1002-spatial.png)
+
+## Effective Visualization
+
+![](1007-effective.png)
+
+## Data Wrangling
+
+![](1009-wrangling.png)
